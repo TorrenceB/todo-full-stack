@@ -1,23 +1,11 @@
-import axios from "axios";
+import Home from './pages/Home'
 
 function App() {
-  // GET localhost:8080/todos
-  const getTodos = async () => {
-    try {
-      const { data } = await axios({
-        method: "get",
-        url: "http://localhost:8080/todos",
-      });
-
-      console.log("Todos response: ", data);
-    } catch (err) {
-      throw new Error("An error has occurred:", err);
-    }
-  };
-
-  getTodos();
-
-  return <div className="App">Test change</div>;
+  return (
+    <div className="App">
+      <Home />
+    </div>
+  );
 }
 
 export default App;
