@@ -3,6 +3,7 @@ import styled from "styled-components";
 import apiClient from "../utils/apiClient";
 
 import Todo from "../components/Todo";
+import actions from "../functions/todo-actions.js";
 import { MdAdd } from "react-icons/md";
 
 const Wrapper = styled.div`
@@ -54,7 +55,7 @@ const Home = () => {
   return (
     <Wrapper>
       <Header>Tasks</Header>
-      <AddButton>
+      <AddButton onClick={actions.createTodo}>
         <MdAdd size={30} />
       </AddButton>
       {todos.map((todo) => {

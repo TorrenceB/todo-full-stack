@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MdDeleteOutline, MdModeEditOutline } from "react-icons/md";
+import actions from "../functions/todo-actions.js";
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,10 +40,10 @@ const Todo = ({ title }) => {
         {title}
       </Left>
       <Right>
-        <Icon>
+        <Icon onClick={actions.updateTodo}>
           <MdModeEditOutline size={iconSize} />
         </Icon>
-        <Icon>
+        <Icon onClick={actions.deleteTodo}>
           <MdDeleteOutline size={iconSize} />
         </Icon>
       </Right>
