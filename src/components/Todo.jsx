@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   min-width: fit-content;
   width: 20rem;
   padding: 1rem;
-  margin: 0.5rem;
 `;
 
 const Checkbox = styled.input``;
