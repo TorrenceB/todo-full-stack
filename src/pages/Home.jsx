@@ -4,7 +4,12 @@ import apiClient from "../utils/apiClient";
 
 import Todo from "../components/Todo";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const Header = styled.h1``;
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
@@ -29,8 +34,9 @@ const Home = () => {
 
   return (
     <Wrapper>
+      <Header>Tasks</Header>
       {todos.map((todo) => {
-        return <Todo id={todo.id} />;
+        return <Todo key={todo.id} title={todo.title} />;
       })}
     </Wrapper>
   );
