@@ -3,6 +3,7 @@ import styled from "styled-components";
 import apiClient from "../utils/apiClient";
 
 import Todo from "../components/Todo";
+import CreateTodoModal from "../components/modals/CreateTodo";
 import actions from "../functions/todo-actions.js";
 import { MdAdd } from "react-icons/md";
 
@@ -18,7 +19,7 @@ const Wrapper = styled.div`
 
 const Header = styled.h1``;
 
-const AddButton = styled.button`
+const ModalButton = styled.button`
   display: flex;
   justify-content: center;
   background-color: blue;
@@ -33,6 +34,11 @@ const AddButton = styled.button`
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const getTodos = async () => {
@@ -55,12 +61,17 @@ const Home = () => {
   return (
     <Wrapper>
       <Header>Tasks</Header>
-      <AddButton onClick={actions.createTodo}>
+      <ModalButton onClick={toggleModal}>
         <MdAdd size={30} />
-      </AddButton>
+      </ModalButton>
       {todos.map((todo) => {
         return <Todo key={todo.id} title={todo.title} />;
       })}
+
+      <CreateTodoModal
+        isOpen={isOpen}
+        onBackgroundClick={toggleModal}
+      ></CreateTodoModal>
     </Wrapper>
   );
 };

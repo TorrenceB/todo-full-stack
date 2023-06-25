@@ -1,9 +1,12 @@
-import Home from './pages/Home'
+import Home from "./pages/Home";
+import { ModalProvider } from "styled-react-modal";
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <ModalProvider>
+        <Home />
+      </ModalProvider>
     </div>
   );
 }
