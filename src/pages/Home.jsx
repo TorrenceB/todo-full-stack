@@ -4,7 +4,6 @@ import apiClient from "../utils/apiClient";
 
 import Todo from "../components/Todo";
 import CreateTodoModal from "../components/modals/CreateTodo";
-import actions from "../functions/todo-actions.js";
 import { MdAdd } from "react-icons/md";
 
 const Wrapper = styled.div`
