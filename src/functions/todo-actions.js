@@ -1,13 +1,22 @@
 import apiClient from "../utils/apiClient";
 
 export default {
+  getTodos: async () => {
+    try {
+      const { data } = await apiClient.get("todos");
+
+      return data;
+    } catch (err) {
+      throw new Error(`@todo-actions:getTodos:: ${err}`);
+    }
+  },
   createTodo: async (todo = {}) => {
     try {
-      const response = await apiClient.post("/todo/post", todo);
+      const { data } = await apiClient.post("/todo/post", todo);
 
-      console.log("Response: ", response);
+      return data;
     } catch (err) {
-      throw new Error(`An error has occurred::${err}`);
+      throw new Error(`@todo-actions:createTodo:: ${err}`);
     }
   },
   updateTodo: () => {

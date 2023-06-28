@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import apiClient from "../utils/apiClient";
+import actions from "../functions/todo-actions";
 
 import Todo from "../components/Todo";
 import CreateTodoModal from "../components/modals/CreateTodo";
@@ -33,19 +33,32 @@ const ModalButton = styled.button`
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
+  const [isFetchingTodos, setIsFetchingTodos] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
 
+  const onCreateTodo = async () => {
+    setIsFetchingTodos(true);
+    setTodos([]);
+
+    const todos = await actions.getTodos();
+
+    setTodos(todos);
+    setIsFetchingTodos(false);
+  };
+
   useEffect(() => {
     const getTodos = async () => {
+      setIsFetchingTodos(true);
       setTodos([]);
-      const { data } = await apiClient.get("todos");
+      const todos = await actions.getTodos();
 
       if (!ignore) {
-        setTodos(data);
+        setTodos(todos);
+        setIsFetchingTodos(false);
       }
     };
 
@@ -54,6 +67,7 @@ const Home = () => {
 
     return () => {
       ignore = true;
+      setIsFetchingTodos(false);
     };
   }, []);
 
@@ -63,13 +77,16 @@ const Home = () => {
       <ModalButton onClick={toggleModal}>
         <MdAdd size={30} />
       </ModalButton>
-      {todos.map((todo) => {
-        return <Todo key={todo.id} title={todo.title} />;
-      })}
+      {!isFetchingTodos
+        ? todos.map((todo) => {
+            return <Todo key={todo.id} title={todo.title} />;
+          })
+        : "Loading Todos"}
 
       <CreateTodoModal
         isOpen={isOpen}
         onBackgroundClick={toggleModal}
+        onCreateTodo={onCreateTodo}
       ></CreateTodoModal>
     </Wrapper>
   );

@@ -33,13 +33,21 @@ const AddButton = styled.button`
   border: none;
   border-radius: 0.25rem;
   font-weight: bolder;
+  cursor: pointer;
 `;
 
-const CreateTodoModal = ({ isOpen, onBackgroundClick }) => {
+const CreateTodoModal = ({ isOpen, onBackgroundClick, onCreateTodo }) => {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState("");
 
-  const create = () => {
+  const cleanUp = () => {
+    onCreateTodo();
+    onBackgroundClick();
+    setTask("");
+    setDescription("");
+  };
+
+  const create = async () => {
     if (task) {
       const todo = {
         description,
@@ -47,23 +55,41 @@ const CreateTodoModal = ({ isOpen, onBackgroundClick }) => {
         isComplete: false,
       };
 
-      actions.createTodo(todo);
+      await actions.createTodo(todo);
+
+      cleanUp();
     }
   };
 
   const handleChange = (e) => {
-    setTask(e.target.value);
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+    const actions = {
+      task: (arg) => setTask(arg),
+      description: (arg) => setDescription(arg),
+    };
+
+    actions[inputName](inputValue);
   };
 
   return (
     <ModalWrapper isOpen={isOpen} onBackgroundClick={onBackgroundClick}>
-      <TaskInput value={task} placeholder="New Task" onChange={handleChange} />
+      <TaskInput
+        value={task}
+        placeholder="New Task"
+        name="task"
+        onChange={handleChange}
+      />
       <DescriptionInput
         value={description}
         placeholder="Task Description"
+        name="description"
         rows="10"
+        onChange={handleChange}
       />
-      <AddButton onClick={create}>Add Task</AddButton>
+      <AddButton onClick={create} disabled>
+        Add Task
+      </AddButton>
     </ModalWrapper>
   );
 };
