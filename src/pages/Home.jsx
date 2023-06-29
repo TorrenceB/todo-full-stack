@@ -40,11 +40,17 @@ const Home = () => {
     setIsOpen(!isOpen);
   };
 
-  const onCreateTodo = async () => {
+  const fetchTodos = async () => {
     setIsFetchingTodos(true);
     setTodos([]);
 
     const todos = await actions.getTodos();
+
+    return todos;
+  };
+
+  const onCreateTodo = async () => {
+    const todos = await fetchTodos();
 
     setTodos(todos);
     setIsFetchingTodos(false);
@@ -52,9 +58,7 @@ const Home = () => {
 
   useEffect(() => {
     const getTodos = async () => {
-      setIsFetchingTodos(true);
-      setTodos([]);
-      const todos = await actions.getTodos();
+      const todos = await fetchTodos();
 
       if (!ignore) {
         setTodos(todos);
@@ -79,7 +83,13 @@ const Home = () => {
       </ModalButton>
       {!isFetchingTodos
         ? todos.map((todo) => {
-            return <Todo key={todo.id} title={todo.title} />;
+            return (
+              <Todo
+                key={todo.id}
+                todo={todo}
+                deleteTodo={() => actions.deleteTodo(todo.id)}
+              />
+            );
           })
         : "Loading Todos"}
 

@@ -22,7 +22,13 @@ export default {
   updateTodo: () => {
     console.log("Update action clicked");
   },
-  deleteTodo: () => {
-    console.log("Delete action clicked");
+  deleteTodo: async (id = "") => {
+    try {
+      const response = await apiClient.delete(`/todo/delete/35`);
+
+      console.log("Res: ", response);
+    } catch (err) {
+      throw new Error(`@todo-actions:deleteTodo:: ${err}`);
+    }
   },
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { MdDeleteOutline, MdModeEditOutline } from "react-icons/md";
-import actions from "../functions/todo-actions.js";
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,20 +29,20 @@ const Icon = styled.span`
   cursor: pointer;
 `;
 
-const Todo = ({ title }) => {
+const Todo = (props) => {
   const iconSize = 26;
 
   return (
     <Wrapper>
       <Left>
         <Checkbox type="checkbox"></Checkbox>
-        {title}
+        {props.todo.title}
       </Left>
       <Right>
-        <Icon onClick={actions.updateTodo}>
+        <Icon onClick={props.updateTodo}>
           <MdModeEditOutline size={iconSize} />
         </Icon>
-        <Icon onClick={actions.deleteTodo}>
+        <Icon onClick={props.deleteTodo}>
           <MdDeleteOutline size={iconSize} />
         </Icon>
       </Right>

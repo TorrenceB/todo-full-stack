@@ -27,13 +27,14 @@ const AddButton = styled.button`
   display: flex;
   justify-content: center;
   width: 50%;
-  background-color: blue;
   color: #fff;
   padding: 0.5rem;
   border: none;
   border-radius: 0.25rem;
   font-weight: bolder;
   cursor: pointer;
+  background-color: ${({ disabled }) => (disabled ? "grey" : "blue")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : null)};
 `;
 
 const CreateTodoModal = ({ isOpen, onBackgroundClick, onCreateTodo }) => {
@@ -87,7 +88,7 @@ const CreateTodoModal = ({ isOpen, onBackgroundClick, onCreateTodo }) => {
         rows="10"
         onChange={handleChange}
       />
-      <AddButton onClick={create} disabled>
+      <AddButton onClick={create} disabled={!task && task.length === 0}>
         Add Task
       </AddButton>
     </ModalWrapper>
