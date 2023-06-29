@@ -1,14 +1,14 @@
 import express from "express";
-// import { db } from "../plugins/firebase";
-// import { collection, deleteDoc } from "firebase/firestore";
+import { db } from "../plugins/firebase.js";
+import { doc, deleteDoc } from "firebase/firestore";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-router.delete("/", (req, res) => {
-  console.log(req.params);
+router.delete("/", async (req, res) => {
+  const docRef = doc(db, "todos", req.params.id);
+  const deleted = await deleteDoc(docRef);
 
-  // const todosCollection = collection(db, "todos")
-  // const newDoc = deleteDoc(todosCollection, )
+  res.send(deleted);
 });
 
 export default router;

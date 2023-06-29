@@ -24,9 +24,7 @@ export default {
   },
   deleteTodo: async (id = "") => {
     try {
-      const response = await apiClient.delete(`/todo/delete/35`);
-
-      console.log("Res: ", response);
+      await apiClient.delete(`/todo/delete/${id}`);
     } catch (err) {
       throw new Error(`@todo-actions:deleteTodo:: ${err}`);
     }
