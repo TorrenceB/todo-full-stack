@@ -56,6 +56,18 @@ const Home = () => {
     setIsFetchingTodos(false);
   };
 
+  const onDeleteTodo = async (id = "") => {
+    const { status } = await actions.deleteTodo(id);
+
+    if (status === 200) {
+      const newTodos = [...todos].filter(
+        ({ id: currentId }) => currentId !== id
+      );
+
+      setTodos(newTodos);
+    }
+  };
+
   useEffect(() => {
     const getTodos = async () => {
       const todos = await fetchTodos();
@@ -87,7 +99,7 @@ const Home = () => {
               <Todo
                 key={todo.id}
                 todo={todo}
-                deleteTodo={() => actions.deleteTodo(todo.id)}
+                deleteTodo={() => onDeleteTodo(todo.id)}
               />
             );
           })
