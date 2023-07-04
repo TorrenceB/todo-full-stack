@@ -12,7 +12,7 @@ export default {
   },
   createTodo: async (todo = {}) => {
     try {
-      const { data } = await apiClient.post("/todo/post", todo);
+      const { data } = await apiClient.post("/todos", todo);
 
       return data;
     } catch (err) {
@@ -24,7 +24,7 @@ export default {
   },
   deleteTodo: async (id = "") => {
     try {
-      const { data, status } = await apiClient.delete(`/todo/delete/${id}`);
+      const { data, status } = await apiClient.delete(`/todos/${id}`);
 
       return { deletedId: data.deletedId, status };
     } catch (err) {
