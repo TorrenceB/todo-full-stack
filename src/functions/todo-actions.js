@@ -19,8 +19,18 @@ export default {
       throw new Error(`@todo-actions:createTodo:: ${err}`);
     }
   },
-  updateTodo: () => {
-    console.log("Update action clicked");
+  updateTodo: async (id = "") => {
+    try {
+      const payload = {
+        title: "Testing todo from updateTodo",
+        description: "lorem ipsum solem",
+      };
+      const response = await apiClient.put(`/todos/${id}`, payload);
+
+      console.log("Response: ", response);
+    } catch (err) {
+      throw new Error(`@todo-actions:updateTodo:: ${err}`);
+    }
   },
   deleteTodo: async (id = "") => {
     try {
