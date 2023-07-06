@@ -2,7 +2,7 @@ import express from "express";
 import { db } from "../plugins/firebase.js";
 import { doc, updateDoc } from "firebase/firestore";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.put("/", async (req, res) => {
   const docRef = doc(db, "todos", req.params.id);
@@ -10,7 +10,7 @@ router.put("/", async (req, res) => {
   try {
     await updateDoc(docRef, { ...req.body });
 
-    res.send(`Todo successfully updated: ${req.params.id}`);
+    res.json({ updatedTodo: req.body });
   } catch (err) {
     console.log(`An error has occurred: ${err}`);
   }

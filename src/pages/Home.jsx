@@ -4,6 +4,7 @@ import actions from "../functions/todo-actions";
 
 import Todo from "../components/Todo";
 import CreateTodoModal from "../components/modals/CreateTodo";
+import UpdateTodoModal from "../components/modals/UpdateTodo";
 import { MdAdd } from "react-icons/md";
 
 const Wrapper = styled.div`
@@ -33,11 +34,20 @@ const ModalButton = styled.button`
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
+  const [todoEditing, setTodoEditing] = useState({});
   const [isFetchingTodos, setIsFetchingTodos] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
+  const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
+  const toggleCreateModal = () => {
+    setCreateModalIsOpen(!createModalIsOpen);
+  };
+
+  const toggleUpdateModal = (selectedTodo = {}) => {
+    setUpdateModalIsOpen(!updateModalIsOpen);
+    setTodoEditing(selectedTodo);
+
+    console.log("Selected: ", todoEditing);
   };
 
   const fetchTodos = async () => {
@@ -90,7 +100,7 @@ const Home = () => {
   return (
     <Wrapper>
       <Header>Tasks</Header>
-      <ModalButton onClick={toggleModal}>
+      <ModalButton onClick={toggleCreateModal}>
         <MdAdd size={30} />
       </ModalButton>
       {!isFetchingTodos
@@ -100,16 +110,22 @@ const Home = () => {
                 key={todo.id}
                 todo={todo}
                 deleteTodo={() => onDeleteTodo(todo.id)}
+                updateTodo={() => toggleUpdateModal(todo)}
               />
             );
           })
         : "Loading Todos"}
 
       <CreateTodoModal
-        isOpen={isOpen}
-        onBackgroundClick={toggleModal}
+        isOpen={createModalIsOpen}
+        onBackgroundClick={toggleCreateModal}
         onCreateTodo={onCreateTodo}
       ></CreateTodoModal>
+      <UpdateTodoModal
+        todo={todoEditing}
+        isOpen={updateModalIsOpen}
+        onBackgroundClick={toggleUpdateModal}
+      ></UpdateTodoModal>
     </Wrapper>
   );
 };

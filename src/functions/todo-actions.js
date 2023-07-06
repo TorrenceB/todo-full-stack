@@ -19,15 +19,11 @@ export default {
       throw new Error(`@todo-actions:createTodo:: ${err}`);
     }
   },
-  updateTodo: async (id = "") => {
+  updateTodo: async (id = "", payload = {}) => {
     try {
-      const payload = {
-        title: "Testing todo from updateTodo",
-        description: "lorem ipsum solem",
-      };
-      const response = await apiClient.put(`/todos/${id}`, payload);
+      const { data } = await apiClient.put(`/todos/${id}`, payload);
 
-      console.log("Response: ", response);
+      return { todo: data.updatedTodo };
     } catch (err) {
       throw new Error(`@todo-actions:updateTodo:: ${err}`);
     }

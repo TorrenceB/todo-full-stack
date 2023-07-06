@@ -15,6 +15,8 @@ const ModalWrapper = Modal.styled`
   padding: 2rem;
 `;
 
+const Header = styled.h1``;
+
 const TaskInput = styled.input`
   padding: 0.25rem;
   width: 100%;
@@ -75,6 +77,7 @@ const CreateTodoModal = ({ isOpen, onBackgroundClick, onCreateTodo }) => {
 
   return (
     <ModalWrapper isOpen={isOpen} onBackgroundClick={onBackgroundClick}>
+      <Header>Add New Task</Header>
       <TaskInput
         value={task}
         placeholder="New Task"
