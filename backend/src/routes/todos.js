@@ -4,9 +4,13 @@ import getCollection from "../utils/getCollection.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const data = await getCollection("todos");
+  try {
+    const data = await getCollection("todos");
 
-  res.send(data);
+    res.send(data);
+  } catch (err) {
+    throw new Error(`An error has occurred @todos.js::getCollection ${err}`);
+  }
 });
 
 export default router;

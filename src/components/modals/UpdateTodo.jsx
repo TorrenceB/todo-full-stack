@@ -1,6 +1,7 @@
 import Modal from "styled-react-modal";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import actions from "../../functions/todo-actions";
 
 const ModalWrapper = Modal.styled`
   width: 20rem;
@@ -39,8 +40,8 @@ const UpdateButton = styled.button`
 `;
 
 const UpdateTodo = ({ isOpen, onBackgroundClick, onUpdateTodo, todo }) => {
-  const [title, setTitle] = useState(todo.title);
-  const [description, setDescription] = useState(todo.description);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleChange = (e) => {
     const inputName = e.target.name;
@@ -53,13 +54,33 @@ const UpdateTodo = ({ isOpen, onBackgroundClick, onUpdateTodo, todo }) => {
     actions[inputName](inputValue);
   };
 
+  const update = async () => {
+    if (todo) {
+      const updatedTodo = {
+        title,
+        description,
+      };
+
+      await actions.updateTodo(todo.id, updatedTodo);
+
+      onUpdateTodo();
+    }
+  };
+
+  useEffect(() => {
+    setTitle(todo.title);
+    setDescription(todo.description);
+
+    return () => {};
+  }, [todo]);
+
   return (
     <ModalWrapper isOpen={isOpen} onBackgroundClick={onBackgroundClick}>
       <Header>Edit Task</Header>
       <TaskInput
         value={title}
         onChange={handleChange}
-        placeholder="New Task"
+        placeholder="Task Title"
         name="title"
       />
       <DescriptionInput
@@ -69,7 +90,7 @@ const UpdateTodo = ({ isOpen, onBackgroundClick, onUpdateTodo, todo }) => {
         name="description"
         rows="10"
       />
-      <UpdateButton>Save</UpdateButton>
+      <UpdateButton onClick={update}>Save</UpdateButton>
     </ModalWrapper>
   );
 };

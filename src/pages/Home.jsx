@@ -46,8 +46,6 @@ const Home = () => {
   const toggleUpdateModal = (selectedTodo = {}) => {
     setUpdateModalIsOpen(!updateModalIsOpen);
     setTodoEditing(selectedTodo);
-
-    console.log("Selected: ", todoEditing);
   };
 
   const fetchTodos = async () => {
@@ -64,6 +62,14 @@ const Home = () => {
 
     setTodos(todos);
     setIsFetchingTodos(false);
+  };
+
+  const onUpdateTodo = async () => {
+    const todos = await fetchTodos();
+
+    setTodos(todos);
+    setIsFetchingTodos(false);
+    toggleUpdateModal();
   };
 
   const onDeleteTodo = async (id = "") => {
@@ -125,6 +131,7 @@ const Home = () => {
         todo={todoEditing}
         isOpen={updateModalIsOpen}
         onBackgroundClick={toggleUpdateModal}
+        onUpdateTodo={onUpdateTodo}
       ></UpdateTodoModal>
     </Wrapper>
   );
