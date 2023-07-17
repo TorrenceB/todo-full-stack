@@ -4,6 +4,7 @@ import todos from "./routes/todos.js";
 import postTodo from "./routes/post-todo.js";
 import deleteTodo from "./routes/delete-todo.js";
 import updateTodo from "./routes/update-todo.js";
+import login from "./routes/login.js";
 
 const app = express();
 const port = 8080;
@@ -15,6 +16,7 @@ app.use("/todos", todos);
 app.use("/todos", postTodo);
 app.use("/todos/:id", deleteTodo);
 app.use("/todos/:id", updateTodo);
+app.use("/login", login);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
